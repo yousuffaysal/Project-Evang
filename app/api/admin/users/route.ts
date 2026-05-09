@@ -3,6 +3,8 @@ import sql from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import { getSession } from '@/lib/auth'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const session = await getSession()
   if (!session || session.role !== 'admin') {
