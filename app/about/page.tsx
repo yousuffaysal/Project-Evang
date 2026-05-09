@@ -167,11 +167,19 @@ export default function AboutPage() {
           <div className="team-grid">
             {[
               {
-                initials: 'AI',
-                name: 'Md. Asif Iqbal',
+                initials: 'GF',
+                name: 'Gazi Fardin Haque',
                 role: 'Founder & CEO',
-                bio: 'Built the first pickup van and rate card in 2024. Spends most days in the field, riding along with crews.',
-                ph: '// founder portrait',
+                bio: 'Leading the strategic vision to scale and modernise Bangladesh\'s doorstep recycling network.',
+                ph: '// CEO portrait',
+              },
+              {
+                initials: 'YF',
+                name: 'Yousuf H Faysal',
+                role: 'Co-Founder & CTO',
+                bio: 'Architect of the digital booking systems, smart routing logs, and data pipelines.',
+                ph: '// CTO portrait',
+                linkedin: 'https://www.linkedin.com/in/yusuf-faysal/',
               },
               {
                 initials: 'FR',
@@ -179,13 +187,6 @@ export default function AboutPage() {
                 role: 'Operations Lead',
                 bio: 'Owns dispatch and quality. If your pickup runs late, she calls you herself.',
                 ph: '// operations lead',
-              },
-              {
-                initials: 'RH',
-                name: 'Rakib Hasan',
-                role: 'Senior Crew Lead',
-                bio: 'Six years in the recycling industry. Trains every new collector personally.',
-                ph: '// crew lead',
               },
               {
                 initials: 'NJ',
@@ -200,6 +201,29 @@ export default function AboutPage() {
                 <h4>{member.name}</h4>
                 <div className="role">{member.role}</div>
                 <p>{member.bio}</p>
+                {member.linkedin && (
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="person-ln"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      marginTop: '12px',
+                      fontSize: '13px',
+                      color: 'var(--lime)',
+                      fontWeight: 500,
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: '16px', height: '16px' }}>
+                      <path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM10 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21H18v-5.5c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21H10z" />
+                    </svg>
+                    Connect on LinkedIn
+                  </a>
+                )}
               </div>
             ))}
           </div>
