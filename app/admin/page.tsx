@@ -57,6 +57,10 @@ export default function AdminPage() {
   const [pickups, setPickups] = useState<Pickup[]>([])
   const [prices, setPrices] = useState<PriceRow[]>([])
   const [priceEdits, setPriceEdits] = useState<Record<number, string>>({})
+  const [showNewPriceModal, setShowNewPriceModal] = useState(false)
+  const [editingPrice, setEditingPrice] = useState<PriceRow | null>(null)
+  const [newPriceForm, setNewPriceForm] = useState({ name: '', name_bn: '', category: 'paper', price: '', unit: 'kg' })
+  const [submittingPrice, setSubmittingPrice] = useState(false)
   const [areas, setAreas] = useState<AreaRow[]>([])
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
@@ -157,6 +161,85 @@ export default function AdminPage() {
     setPrices(prev => prev.map(p => priceEdits[p.id] !== undefined ? { ...p, price: Number(priceEdits[p.id]) } : p))
     setPriceEdits({})
     alert('Prices saved.')
+  }
+
+  const handleCreatePrice = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubmittingPrice(true)
+    try {
+      const res = await fetch('/api/prices', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: newPriceForm.name,
+          name_bn: newPriceForm.name_bn || null,
+          category: newPriceForm.category,
+          price: Number(newPriceForm.price),
+          unit: newPriceForm.unit
+        })
+      })
+      const data = await res.json()
+      if (data.ok) {
+        setPrices(prev => [...prev, data.price])
+        setShowNewPriceModal(false)
+        setNewPriceForm({ name: '', name_bn: '', category: 'paper', price: '', unit: 'kg' })
+        alert('Price item created successfully!')
+      } else {
+        alert(data.error || 'Failed to add price.')
+      }
+    } catch (err) {
+      alert('Error creating price.')
+    } finally {
+      setSubmittingPrice(false)
+    }
+  }
+
+  const handleUpdatePrice = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!editingPrice) return
+    setSubmittingPrice(true)
+    try {
+      const res = await fetch(`/api/prices/${editingPrice.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: editingPrice.name,
+          name_bn: editingPrice.name_bn || null,
+          category: editingPrice.category,
+          price: Number(editingPrice.price),
+          unit: editingPrice.unit,
+          is_active: editingPrice.is_active
+        })
+      })
+      const data = await res.json()
+      if (data.ok) {
+        setPrices(prev => prev.map(p => p.id === editingPrice.id ? data.price : p))
+        setEditingPrice(null)
+        alert('Price item updated successfully!')
+      } else {
+        alert(data.error || 'Failed to update price.')
+      }
+    } catch (err) {
+      alert('Error updating price.')
+    } finally {
+      setSubmittingPrice(false)
+    }
+  }
+
+  const handleDeletePrice = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this price item?')) return
+    try {
+      const res = await fetch(`/api/prices/${id}`, { method: 'DELETE' })
+      const data = await res.json()
+      if (data.ok) {
+        setPrices(prev => prev.filter(p => p.id !== id))
+        alert('Price item deleted successfully!')
+      } else {
+        alert(data.error || 'Failed to delete price.')
+      }
+    } catch (err) {
+      alert('Error deleting price.')
+    }
   }
 
   const updatePickupStatus = async (id: number, status: string) => {
@@ -519,27 +602,58 @@ export default function AdminPage() {
             <div className="topbar">
               <div><h1>Scrap price list</h1><div className="sub">Edit and publish the live rate card. Changes appear on the public site instantly.</div></div>
               <div className="topbar-actions">
+                <button className="pill dark" onClick={() => setShowNewPriceModal(true)} style={{ marginRight: '8px' }}>+ Add item</button>
                 <button className="pill lime" onClick={savePrices}>Publish changes</button>
               </div>
             </div>
             <div className="panel">
               <table className="admin-table">
-                <thead><tr><th>Item</th><th>Bangla</th><th>Category</th><th>Price (৳)</th><th>Unit</th><th></th></tr></thead>
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Bangla Name</th>
+                    <th>Category</th>
+                    <th>Price (৳)</th>
+                    <th>Unit</th>
+                    <th>Status</th>
+                    <th style={{ textAlign: 'right' }}>Actions</th>
+                  </tr>
+                </thead>
                 <tbody>
                   {prices.map(p => (
                     <tr key={p.id}>
                       <td><strong>{p.name}</strong></td>
-                      <td>{p.name_bn}</td>
-                      <td><span className="badge b-progress">{p.category}</span></td>
+                      <td>{p.name_bn || '—'}</td>
+                      <td><span className="badge b-progress" style={{ textTransform: 'capitalize' }}>{p.category}</span></td>
                       <td>
                         <input
                           value={priceEdits[p.id] !== undefined ? priceEdits[p.id] : String(p.price)}
                           onChange={e => setPriceEdits(prev => ({ ...prev, [p.id]: e.target.value }))}
-                          style={{ border: '1px solid var(--hair)', borderRadius: 8, padding: '6px 10px', fontFamily: 'inherit', fontSize: 13, width: 120, outline: 'none' }}
+                          style={{ border: '1px solid var(--hair)', borderRadius: 8, padding: '6px 10px', fontFamily: 'inherit', fontSize: 13, width: 100, outline: 'none' }}
                         />
                       </td>
                       <td>{p.unit}</td>
-                      <td><span className="row-action">✎</span></td>
+                      <td>
+                        <span className={`badge ${p.is_active ? 'b-done' : 'b-cancel'}`}>
+                          {p.is_active ? 'Active' : 'Inactive'}
+                        </span>
+                      </td>
+                      <td style={{ textAlign: 'right' }}>
+                        <button
+                          className="pill"
+                          onClick={() => setEditingPrice(p)}
+                          style={{ padding: '6px 12px', fontSize: '11px', marginRight: '6px', background: 'rgba(1,33,82,0.05)', color: 'var(--navy)' }}
+                        >
+                          ✎ Edit
+                        </button>
+                        <button
+                          className="pill"
+                          onClick={() => handleDeletePrice(p.id)}
+                          style={{ padding: '6px 12px', fontSize: '11px', background: 'rgba(239,68,68,0.1)', color: '#ef4444' }}
+                        >
+                          🗑️ Delete
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -852,6 +966,104 @@ export default function AdminPage() {
               </div>
               <button type="submit" className="pill lime" disabled={submittingPost} style={{ alignSelf: 'flex-start', marginTop: '8px' }}>
                 {submittingPost ? 'Creating...' : 'Create Draft'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showNewPriceModal && (
+        <div className="modal-backdrop" onClick={() => setShowNewPriceModal(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-head">
+              <h2>Add New Scrap Item</h2>
+              <button className="modal-close" onClick={() => setShowNewPriceModal(false)}>✕</button>
+            </div>
+            <form className="modal-body" onSubmit={handleCreatePrice}>
+              <div className="field">
+                <label>Item Name (English)</label>
+                <input required placeholder="e.g. Cardboard" value={newPriceForm.name} onChange={e => setNewPriceForm(f => ({ ...f, name: e.target.value }))} />
+              </div>
+              <div className="field">
+                <label>Item Name (Bangla)</label>
+                <input placeholder="e.g. পিচবোর্ড" value={newPriceForm.name_bn} onChange={e => setNewPriceForm(f => ({ ...f, name_bn: e.target.value }))} />
+              </div>
+              <div className="field">
+                <label>Category</label>
+                <select required value={newPriceForm.category} onChange={e => setNewPriceForm(f => ({ ...f, category: e.target.value }))}>
+                  <option value="paper">Paper</option>
+                  <option value="plastic">Plastic</option>
+                  <option value="metal">Metal</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="appliances">Appliances</option>
+                </select>
+              </div>
+              <div className="field-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="field">
+                  <label>Price (৳)</label>
+                  <input required type="number" step="0.01" placeholder="e.g. 15" value={newPriceForm.price} onChange={e => setNewPriceForm(f => ({ ...f, price: e.target.value }))} />
+                </div>
+                <div className="field">
+                  <label>Unit</label>
+                  <input required placeholder="e.g. kg or piece" value={newPriceForm.unit} onChange={e => setNewPriceForm(f => ({ ...f, unit: e.target.value }))} />
+                </div>
+              </div>
+              <button type="submit" className="pill lime" disabled={submittingPrice} style={{ alignSelf: 'flex-start', marginTop: '12px' }}>
+                {submittingPrice ? 'Adding...' : 'Add Item'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {editingPrice && (
+        <div className="modal-backdrop" onClick={() => setEditingPrice(null)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-head">
+              <h2>Edit Scrap Item</h2>
+              <button className="modal-close" onClick={() => setEditingPrice(null)}>✕</button>
+            </div>
+            <form className="modal-body" onSubmit={handleUpdatePrice}>
+              <div className="field">
+                <label>Item Name (English)</label>
+                <input required value={editingPrice.name} onChange={e => setEditingPrice(f => f ? ({ ...f, name: e.target.value }) : null)} />
+              </div>
+              <div className="field">
+                <label>Item Name (Bangla)</label>
+                <input value={editingPrice.name_bn || ''} onChange={e => setEditingPrice(f => f ? ({ ...f, name_bn: e.target.value }) : null)} />
+              </div>
+              <div className="field">
+                <label>Category</label>
+                <select required value={editingPrice.category} onChange={e => setEditingPrice(f => f ? ({ ...f, category: e.target.value }) : null)}>
+                  <option value="paper">Paper</option>
+                  <option value="plastic">Plastic</option>
+                  <option value="metal">Metal</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="appliances">Appliances</option>
+                </select>
+              </div>
+              <div className="field-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="field">
+                  <label>Price (৳)</label>
+                  <input required type="number" step="0.01" value={editingPrice.price} onChange={e => setEditingPrice(f => f ? ({ ...f, price: Number(e.target.value) }) : null)} />
+                </div>
+                <div className="field">
+                  <label>Unit</label>
+                  <input required value={editingPrice.unit} onChange={e => setEditingPrice(f => f ? ({ ...f, unit: e.target.value }) : null)} />
+                </div>
+              </div>
+              <div className="field" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px', cursor: 'pointer' }}>
+                <input
+                  type="checkbox"
+                  id="price_active"
+                  checked={editingPrice.is_active}
+                  onChange={e => setEditingPrice(f => f ? ({ ...f, is_active: e.target.checked }) : null)}
+                  style={{ width: '16px', height: '16px', margin: 0 }}
+                />
+                <label htmlFor="price_active" style={{ fontSize: '13px', color: 'var(--navy)', userSelect: 'none', margin: 0, fontWeight: 500 }}>Active & visible on public list</label>
+              </div>
+              <button type="submit" className="pill lime" disabled={submittingPrice} style={{ alignSelf: 'flex-start', marginTop: '12px' }}>
+                {submittingPrice ? 'Saving...' : 'Save Changes'}
               </button>
             </form>
           </div>
