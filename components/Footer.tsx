@@ -81,8 +81,6 @@ export default function Footer() {
           <span>© 2026 E-Vangariwala. All rights reserved.</span>
           <span>Making Bangladesh cleaner, one scrap at a time.</span>
         </div>
-
-        <div className="foot-bigtype" style={{ fontFamily: 'var(--font-unbounded), sans-serif', fontWeight: 800, letterSpacing: '-0.05em' }}>E-Vangariwala</div>
       </div>
     </footer>
   )

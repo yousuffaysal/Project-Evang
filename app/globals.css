@@ -3860,10 +3860,40 @@ form.contact-form {
   /* Admin responsive */
   .login-page {
     grid-template-columns: 1fr;
+    min-height: 100vh;
   }
 
   .login-left {
     display: none;
+  }
+
+  .login-right {
+    padding: 40px 24px !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: var(--paper-2) !important;
+  }
+
+  .login-right-inner {
+    width: 100% !important;
+    max-width: 400px !important;
+  }
+
+  .login-right h1 {
+    font-size: clamp(28px, 8vw, 38px) !important;
+    line-height: 1.1 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .login-right .sub {
+    font-size: 14px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .form-toggle-wrap {
+    margin-bottom: 24px !important;
   }
 
   .dash {
