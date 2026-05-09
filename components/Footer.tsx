@@ -15,19 +15,19 @@ export default function Footer() {
               simply clear your space — we come to you.
             </p>
             <div className="socials">
-              <a href="#" aria-label="Facebook">
+              <a href="https://www.facebook.com/share/1BNf7mRWFm/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                 <svg viewBox="0 0 24 24" fill="currentColor">
                   <path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0022 12z" />
                 </svg>
               </a>
-              <a href="#" aria-label="Instagram">
+              <a href="https://www.instagram.com/reel/DXdgdq1gBrY/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                   <rect x="3" y="3" width="18" height="18" rx="5" />
                   <circle cx="12" cy="12" r="4" />
                   <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
                 </svg>
               </a>
-              <a href="#" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/posts/evangariwala_activity-7453758283028402176-B4nf?utm_source=share&utm_medium=member_android&rcm=ACoAADNn6Z4BZREs4PA7NAITpw4Dk2Qh5SAN8io" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <svg viewBox="0 0 24 24" fill="currentColor">
                   <path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM10 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21H18v-5.5c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21H10z" />
                 </svg>
