@@ -3681,6 +3681,23 @@ form.contact-form {
     font-size: 13px !important;
   }
 
+  /* Stacked booking form buttons */
+  .submit-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  .submit-row .btn-lime,
+  .submit-row .wa-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    flex: none !important;
+    padding: 14px !important;
+    font-size: 15px !important;
+  }
+
   /* Tighten Testimonial cards */
   .testi-card {
     padding: 24px !important;
