@@ -169,31 +169,17 @@ export default function AboutPage() {
               {
                 initials: 'GF',
                 name: 'Gazi Fardin Haque',
-                role: 'Founder & CEO',
+                role: 'CEO',
                 bio: 'Leading the strategic vision to scale and modernise Bangladesh\'s doorstep recycling network.',
                 ph: '// CEO portrait',
               },
               {
                 initials: 'YF',
                 name: 'Yousuf H Faysal',
-                role: 'Co-Founder & CTO',
+                role: 'CTO',
                 bio: 'Architect of the digital booking systems, smart routing logs, and data pipelines.',
                 ph: '// CTO portrait',
                 linkedin: 'https://www.linkedin.com/in/yusuf-faysal/',
-              },
-              {
-                initials: 'FR',
-                name: 'Farhana Rahman',
-                role: 'Operations Lead',
-                bio: 'Owns dispatch and quality. If your pickup runs late, she calls you herself.',
-                ph: '// operations lead',
-              },
-              {
-                initials: 'NJ',
-                name: 'Nusrat Jahan',
-                role: 'Customer Support',
-                bio: 'Replies on WhatsApp. Speaks Bangla and English. Responds within minutes during business hours.',
-                ph: '// support',
               },
             ].map((member) => (
               <div key={member.name} className="person">
