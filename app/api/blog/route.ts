@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/db'
 import { getSession } from '@/lib/auth'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const status = searchParams.get('status') || 'published'
