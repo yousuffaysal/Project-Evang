@@ -3,6 +3,8 @@ import sql from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import { signToken, setSessionCookie } from '@/lib/auth'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json()
