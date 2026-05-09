@@ -257,7 +257,7 @@ export default function HomePage() {
           </div>
 
           <div className="actions-grid">
-            <div className="action-card sell">
+            <Link href="#book" className="action-card sell">
               <div>
                 <div className="num">01 / SELL</div>
                 <h3>Sell Your Scrap</h3>
@@ -267,16 +267,16 @@ export default function HomePage() {
                 Turn old items into instant cash. Fair, transparent prices per kg or per piece. We
                 weigh in front of you — and pay on the spot.
               </p>
-              <button className="arrow-btn">
+              <div className="arrow-btn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M7 17L17 7M9 7h8v8" />
                 </svg>
-              </button>
+              </div>
               <div className="deco" />
               <div className="deco2" />
-            </div>
+            </Link>
 
-            <div className="action-card donate">
+            <Link href="#book" className="action-card donate">
               <div>
                 <div className="num">02 / DONATE</div>
                 <h3>Donate Your Scrap</h3>
@@ -286,16 +286,16 @@ export default function HomePage() {
                 Don&apos;t need cash? Donate your scrap. We recycle it responsibly, give you a
                 digital receipt, and the planet thanks you.
               </p>
-              <button className="arrow-btn">
+              <div className="arrow-btn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M7 17L17 7M9 7h8v8" />
                 </svg>
-              </button>
+              </div>
               <div className="deco" />
               <div className="deco2" />
-            </div>
+            </Link>
 
-            <div className="action-card space">
+            <Link href="#book" className="action-card space">
               <div>
                 <div className="num">03 / DECLUTTER</div>
                 <h3>Free Up Your Space</h3>
@@ -305,14 +305,14 @@ export default function HomePage() {
                 Offices, homes, warehouses — clutter is a productivity killer. One call, no
                 middleman, complete clearance. Done in a single visit.
               </p>
-              <button className="arrow-btn">
+              <div className="arrow-btn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M7 17L17 7M9 7h8v8" />
                 </svg>
-              </button>
+              </div>
               <div className="deco" />
               <div className="deco2" />
-            </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -820,18 +820,16 @@ export default function HomePage() {
           <h2>Clear your space today.</h2>
           <span className="bn">আপনার বর্জ্য, আমাদের দায়িত্ব।</span>
           <p style={{ marginTop: 32 }}>
-            Drop your number, and our team will WhatsApp you a pickup window within the hour.
+            Fill out our simple booking form and we will schedule your doorstep pickup.
           </p>
-          <form className="cta-form" onSubmit={handleCtaSubmit}>
-            <input
-              type="tel"
-              placeholder="01XXX-XXXXXX"
-              required
-              value={ctaPhone}
-              onChange={(e) => setCtaPhone(e.target.value)}
-            />
-            <button type="submit">Request Pickup</button>
-          </form>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 32 }}>
+            <Link href="#book" className="btn btn-lime" style={{ padding: '16px 36px', fontSize: '17px', gap: '12px' }}>
+              Request Pickup
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ width: 18, height: 18 }}>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+          </div>
         </div>
       </section>
 
