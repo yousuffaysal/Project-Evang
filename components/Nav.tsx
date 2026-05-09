@@ -61,7 +61,7 @@ export default function Nav({ dark: initialDark }: NavProps) {
   const links = [
     { href: '/', label: 'Home' },
     { href: '/#prices', label: 'Prices' },
-    { href: '/#book', label: 'Book' },
+    { href: '/#book-form', label: 'Book' },
     { href: '/blog', label: 'Blog' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
@@ -73,6 +73,9 @@ export default function Nav({ dark: initialDark }: NavProps) {
     }
     if (href.startsWith('/#')) {
       const hash = href.replace('/', '') // e.g. '#prices'
+      if (hash === '#book-form') {
+        return pathname === '/' && activeHash === '#book'
+      }
       return pathname === '/' && activeHash === hash
     }
     return pathname === href
@@ -107,7 +110,7 @@ export default function Nav({ dark: initialDark }: NavProps) {
           </Link>
         </div>
 
-        <Link href="/#book" className="cta">
+        <Link href="/#book-form" className="cta">
           Book Pickup
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M5 12h14M13 6l6 6-6 6" />

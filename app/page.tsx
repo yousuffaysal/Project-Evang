@@ -208,7 +208,7 @@ export default function HomePage() {
                 We pick it up — you get cash, or a clutter-free space. No haggling. No hassle.
               </div>
               <div className="hero-cta-row">
-                <Link href="#book" className="btn btn-lime">
+                <Link href="#book-form" className="btn btn-lime">
                   Book a Free Pickup
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <path d="M5 12h14M13 6l6 6-6 6" />
@@ -282,7 +282,7 @@ export default function HomePage() {
           </div>
 
           <div className="actions-grid">
-            <Link href="#book" className="action-card sell">
+            <Link href="#book-form" className="action-card sell">
               <div>
                 <div className="num">01 / SELL</div>
                 <h3>Sell Your Scrap</h3>
@@ -301,7 +301,7 @@ export default function HomePage() {
               <div className="deco2" />
             </Link>
 
-            <Link href="#book" className="action-card donate">
+            <Link href="#book-form" className="action-card donate">
               <div>
                 <div className="num">02 / DONATE</div>
                 <h3>Donate Your Scrap</h3>
@@ -320,7 +320,7 @@ export default function HomePage() {
               <div className="deco2" />
             </Link>
 
-            <Link href="#book" className="action-card space">
+            <Link href="#book-form" className="action-card space">
               <div>
                 <div className="num">03 / DECLUTTER</div>
                 <h3>Free Up Your Space</h3>
@@ -682,7 +682,7 @@ export default function HomePage() {
                 Headquarters at Dakkhingoan 1 No. Road, Basaboo, Dhaka-1214. Pickup typically
                 scheduled within 24–48 hours.
               </p>
-              <Link href="#book" className="btn btn-lime">
+              <Link href="#book-form" className="btn btn-lime">
                 Request Pickup
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M5 12h14M13 6l6 6-6 6" />
@@ -726,7 +726,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <form onSubmit={handleFormSubmit}>
+            <form id="book-form" onSubmit={handleFormSubmit}>
               <div className="field-row">
                 <div className="field">
                   <label>Full Name / নাম</label>
@@ -848,7 +848,7 @@ export default function HomePage() {
             Fill out our simple booking form and we will schedule your doorstep pickup.
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 32 }}>
-            <Link href="#book" className="btn btn-lime" style={{ padding: '16px 36px', fontSize: '17px', gap: '12px' }}>
+            <Link href="#book-form" className="btn btn-lime" style={{ padding: '16px 36px', fontSize: '17px', gap: '12px' }}>
               Request Pickup
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ width: 18, height: 18 }}>
                 <path d="M5 12h14M13 6l6 6-6 6" />
