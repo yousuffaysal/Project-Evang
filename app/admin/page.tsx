@@ -386,7 +386,18 @@ export default function AdminPage() {
 
   return (
     <section className="dash">
-      <aside>
+      {/* Mobile Header Bar */}
+      <div className="mobile-admin-header">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <img src="/logo.png" alt="E-Vangariwala Logo" style={{ height: '28px', width: 'auto' }} />
+          <span style={{ fontSize: '13px', fontWeight: 800, fontFamily: 'var(--font-unbounded), sans-serif', color: '#fff', letterSpacing: '-0.04em' }}>E-Vangariwala</span>
+        </div>
+        <button className="mobile-menu-trigger" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          {mobileMenuOpen ? '✕' : '☰'}
+        </button>
+      </div>
+
+      <aside className={mobileMenuOpen ? 'mobile-show' : ''}>
         <div className="aside-brand" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '8px', paddingBottom: '16px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <img src="/logo.png" alt="E-Vangariwala Logo" style={{ height: '34px', width: 'auto', objectFit: 'contain' }} />
@@ -399,7 +410,7 @@ export default function AdminPage() {
           <ul>
             {navItems.filter(i => !['users','settings'].includes(i.view)).map(item => (
               <li key={item.view}>
-                <a className={currentView === item.view ? 'active' : ''} onClick={() => setCurrentView(item.view)}>
+                <a className={currentView === item.view ? 'active' : ''} onClick={() => { setCurrentView(item.view); setMobileMenuOpen(false); }}>
                   {item.icon}{item.label}
                 </a>
               </li>
@@ -411,7 +422,7 @@ export default function AdminPage() {
               <ul>
                 {navItems.filter(i => ['users','settings'].includes(i.view)).map(item => (
                   <li key={item.view}>
-                    <a className={currentView === item.view ? 'active' : ''} onClick={() => setCurrentView(item.view)}>
+                    <a className={currentView === item.view ? 'active' : ''} onClick={() => { setCurrentView(item.view); setMobileMenuOpen(false); }}>
                       {item.icon}{item.label}
                     </a>
                   </li>
@@ -422,11 +433,11 @@ export default function AdminPage() {
         </nav>
         <div className="aside-footer">
           <div>{user.name} · {user.role}</div>
-          <div className="logout" onClick={handleLogout}>Sign out</div>
+          <div className="logout" onClick={() => { handleLogout(); setMobileMenuOpen(false); }}>Sign out</div>
         </div>
       </aside>
 
-      <main>
+      <main onClick={() => setMobileMenuOpen(false)}>
         {/* DASHBOARD */}
         {currentView === 'dashboard' && (
           <div>
