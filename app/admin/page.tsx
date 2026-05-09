@@ -61,6 +61,7 @@ export default function AdminPage() {
   const [editingPrice, setEditingPrice] = useState<PriceRow | null>(null)
   const [newPriceForm, setNewPriceForm] = useState({ name: '', name_bn: '', category: 'paper', price: '', unit: 'kg' })
   const [submittingPrice, setSubmittingPrice] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [areas, setAreas] = useState<AreaRow[]>([])
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
