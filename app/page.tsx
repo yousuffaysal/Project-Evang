@@ -52,6 +52,23 @@ const AREAS = [
 
 const SCRAP_TYPES = ['Paper', 'Cardboard', 'Books', 'Plastic', 'Metal', 'Electronics', 'AC / Fridge', 'Furniture', 'Mixed lot']
 
+const FALLBACK_PRICES: PriceRow[] = [
+  { id: 1, name: 'Newspapers & Books', name_bn: 'পত্রিকা ও বই', category: 'paper', price: 12, unit: 'kg' },
+  { id: 2, name: 'Cardboard / Carton', name_bn: 'কার্টন', category: 'paper', price: 8, unit: 'kg' },
+  { id: 3, name: 'White Office Paper', name_bn: 'অফিস পেপার', category: 'paper', price: 15, unit: 'kg' },
+  { id: 4, name: 'PET Bottles (crushed)', name_bn: 'পেট বোতল', category: 'plastic', price: 18, unit: 'kg' },
+  { id: 5, name: 'Hard Plastic (buckets, chairs)', name_bn: 'হার্ড প্লাস্টিক', category: 'plastic', price: 10, unit: 'kg' },
+  { id: 6, name: 'Copper Wire', name_bn: 'তামার তার', category: 'metal', price: 850, unit: 'kg' },
+  { id: 7, name: 'Aluminium', name_bn: 'অ্যালুমিনিয়াম', category: 'metal', price: 140, unit: 'kg' },
+  { id: 8, name: 'Cast Iron', name_bn: 'কাস্ট আয়রন', category: 'metal', price: 35, unit: 'kg' },
+  { id: 9, name: 'Mixed Steel', name_bn: 'মিক্সড স্টিল', category: 'metal', price: 28, unit: 'kg' },
+  { id: 10, name: 'Laptop / Desktop', name_bn: 'ল্যাপটপ / ডেস্কটপ', category: 'electronics', price: 1200, unit: 'piece' },
+  { id: 11, name: 'CRT Monitor', name_bn: 'সিআরটি মনিটর', category: 'electronics', price: 300, unit: 'piece' },
+  { id: 12, name: 'Mobile Phone', name_bn: 'মোবাইল ফোন', category: 'electronics', price: 250, unit: 'piece' },
+  { id: 13, name: 'Air Conditioner (split)', name_bn: 'এসি (স্প্লিট)', category: 'appliances', price: 3500, unit: 'piece' },
+  { id: 14, name: 'Refrigerator', name_bn: 'ফ্রিজ', category: 'appliances', price: 2200, unit: 'piece' },
+]
+
 export default function HomePage() {
   const [priceTab, setPriceTab] = useState('all')
   const [prices, setPrices] = useState<PriceRow[]>([])
@@ -63,15 +80,23 @@ export default function HomePage() {
   const [loadingPrices, setLoadingPrices] = useState(true)
   const [toastInfo, setToastInfo] = useState<{ show: boolean; message: string; ref?: string }>({ show: false, message: '' })
 
-  /* Fetch prices from API */
+  /* Fetch prices from API with cache-busting and robust fallbacks */
   useEffect(() => {
-    fetch('/api/prices')
+    fetch('/api/prices?_t=' + Date.now())
       .then((r) => r.json())
       .then((d) => {
-        setPrices(d.prices || [])
+        const loadedPrices = d.prices || []
+        if (loadedPrices.length > 0) {
+          setPrices(loadedPrices)
+        } else {
+          setPrices(FALLBACK_PRICES)
+        }
         setLoadingPrices(false)
       })
-      .catch(() => setLoadingPrices(false))
+      .catch(() => {
+        setPrices(FALLBACK_PRICES)
+        setLoadingPrices(false)
+      })
   }, [])
 
   /* Scroll reveal */

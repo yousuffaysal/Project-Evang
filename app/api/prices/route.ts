@@ -8,7 +8,16 @@ export async function GET() {
   const rows = await sql`
     SELECT * FROM prices WHERE is_active = TRUE ORDER BY sort_order, id
   `
-  return NextResponse.json({ prices: rows })
+  return NextResponse.json(
+    { prices: rows },
+    {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    }
+  )
 }
 
 export async function PUT(req: NextRequest) {
