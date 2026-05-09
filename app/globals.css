@@ -3897,11 +3897,123 @@ form.contact-form {
   }
 
   .dash {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    min-height: 100vh;
+    padding-top: 60px; /* Make space for floating mobile header */
   }
 
-  .kpis,
-  .cols,
+  .mobile-admin-header {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    z-index: 150;
+  }
+
+  .mobile-menu-trigger {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+
+  .mobile-menu-trigger:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .dash aside {
+    position: fixed !important;
+    top: 60px !important;
+    left: -280px !important;
+    bottom: 0 !important;
+    width: 280px !important;
+    height: calc(100vh - 60px) !important;
+    z-index: 140 !important;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.25);
+  }
+
+  .dash aside.mobile-show {
+    left: 0 !important;
+  }
+
+  .dash main {
+    padding: 24px 16px !important;
+  }
+
+  /* Make tables and details cards fully responsive */
+  .admin-table {
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Compact KPI layout on smaller devices */
+  .kpis {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* Topbar stacking */
+  .topbar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .topbar-actions {
+    width: 100% !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+  }
+
+  .topbar-actions .search {
+    flex: 1 1 200px !important;
+    width: 100% !important;
+  }
+
+  .topbar-actions .pill {
+    flex: 1 1 auto !important;
+    justify-content: center !important;
+  }
+
+  /* Double columns layouts stack on small screens */
+  .cols {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  /* Modals fitting screen */
+  .modal-content {
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    padding: 20px !important;
+    margin: 10px !important;
+  }
+
+  .modal-split {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
   .user-grid,
   .role-grid {
     grid-template-columns: 1fr;
