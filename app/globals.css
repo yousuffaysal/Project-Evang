@@ -658,11 +658,11 @@ footer {
 
 .hero {
   position: relative;
-  min-height: 760px;
+  min-height: 600px;
   background: linear-gradient(180deg, #021a3d 0%, #012152 60%, #01173a 100%);
   color: #fff;
   overflow: hidden;
-  padding-top: 40px;
+  padding-top: 24px;
   border-radius: 32px;
 }
 
@@ -689,7 +689,7 @@ footer {
 
 .hero-inner {
   position: relative;
-  padding: 16px 64px 56px;
+  padding: 16px 64px 32px;
   max-width: 100%;
 }
 
@@ -867,7 +867,7 @@ footer {
 }
 
 .hero-strip {
-  margin-top: 80px;
+  margin-top: 36px;
   border-top: 1px solid rgba(255, 255, 255, 0.25);
   padding-top: 18px;
   display: flex;
@@ -3459,6 +3459,47 @@ form.contact-form {
     display: none;
   }
 
+  .hamburger {
+    display: flex !important;
+  }
+
+  .nav .cta {
+    display: none !important;
+  }
+
+  .hero {
+    min-height: auto !important;
+    padding-bottom: 40px;
+  }
+
+  .hero-inner {
+    padding: 16px 16px 24px !important;
+  }
+
+  .hero-badge {
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    margin: 32px auto 0 !important;
+    width: 110px !important;
+    height: 110px !important;
+  }
+
+  .hero-badge .num {
+    font-size: 24px !important;
+  }
+
+  .hero-badge small {
+    font-size: 9px !important;
+  }
+
+  .hero-bottom-services {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    text-align: center;
+  }
+
   .section-head {
     flex-direction: column;
     align-items: flex-start;
@@ -3834,4 +3875,122 @@ form.contact-form {
   border-radius: 50%;
   font-weight: 700;
   font-size: 12px;
+}
+
+/* ============================================================
+   RESPONSIVE HAMBURGER & DRAWER
+   ============================================================ */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 26px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 100;
+  position: relative;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: left center;
+}
+
+.nav.dark:not(.menu-open) .hamburger span,
+.nav.scrolled:not(.menu-open) .hamburger span {
+  background-color: var(--navy);
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(3px, -2px);
+  background-color: #fff;
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(3px, 2px);
+  background-color: #fff;
+}
+
+.mobile-drawer {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, #021a3d 0%, #012152 100%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  transform: translateY(-100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+}
+
+.mobile-drawer.open {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.drawer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
+  align-items: center;
+  width: 100%;
+}
+
+.drawer-links a {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 20px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+  font-family: var(--font-unbounded), sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.drawer-links a:hover,
+.drawer-links a.active {
+  color: var(--lime);
+  transform: scale(1.05);
+}
+
+.drawer-divider {
+  width: 60px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 12px 0;
+}
+
+.drawer-btn-login {
+  color: #fff !important;
+  font-size: 18px !important;
+  padding: 10px 24px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  width: 200px;
+}
+
+.drawer-btn-signup {
+  color: var(--navy) !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  padding: 12px 24px;
+  border-radius: 100px;
+  background: var(--lime);
+  width: 200px;
 }
