@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import sql from '@/lib/db'
 import { getSession } from '@/lib/auth'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   const [post] = await sql`SELECT * FROM blog_posts WHERE id = ${Number(params.id)}`
   if (!post) return NextResponse.json({ error: 'Not found.' }, { status: 404 })
