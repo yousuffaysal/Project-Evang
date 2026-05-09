@@ -3467,37 +3467,234 @@ form.contact-form {
     display: none !important;
   }
 
-  .hero {
-    min-height: auto !important;
-    padding-bottom: 40px;
+  .hero-supporting {
+    display: none !important;
   }
 
-  .hero-inner {
-    padding: 16px 16px 24px !important;
+  .hero-display .bottom {
+    display: none !important;
   }
 
   .hero-badge {
-    position: relative !important;
-    right: auto !important;
-    top: auto !important;
-    margin: 32px auto 0 !important;
-    width: 110px !important;
-    height: 110px !important;
+    display: none !important;
   }
 
-  .hero-badge .num {
-    font-size: 24px !important;
+  .hero-strip {
+    display: none !important;
   }
 
-  .hero-badge small {
-    font-size: 9px !important;
+  .hairline.light {
+    display: none !important;
   }
 
   .hero-bottom-services {
-    flex-direction: column;
-    gap: 16px;
+    display: none !important;
+  }
+
+  /* Perfect aspect ratio square-ish box for mobile */
+  .hero {
+    aspect-ratio: 1 / 1.15;
+    min-height: auto !important;
+    border-radius: 24px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
     align-items: center;
+    justify-content: center;
+  }
+
+  .hero-inner {
+    padding: 16px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    gap: 12px;
+  }
+
+  .hero-display {
     text-align: center;
+    margin-bottom: 0;
+  }
+
+  .hero-display .top {
+    justify-content: center;
+    font-size: clamp(32px, 8vw, 44px) !important;
+  }
+
+  .hero-bn {
+    font-size: clamp(24px, 6vw, 32px) !important;
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  .hero-sub {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+    margin-top: 12px !important;
+    text-align: center;
+  }
+
+  .hero-tagline {
+    font-size: 14px !important;
+    max-width: 100% !important;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .hero-tagline .bn {
+    font-size: 16px !important;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+
+  .hero-cta-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .hero-cta-row .btn {
+    width: 100% !important;
+    justify-content: center;
+    padding: 12px 20px !important;
+    font-size: 14px !important;
+  }
+
+  /* Compact stats section */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+    padding-top: 24px !important;
+  }
+
+  .stat-item .v {
+    font-size: 40px !important;
+  }
+
+  .stat-item .l {
+    font-size: 12px !important;
+    margin-top: 6px !important;
+  }
+
+  /* Compact Action Cards */
+  .action-card {
+    min-height: auto !important;
+    padding: 24px !important;
+    gap: 16px !important;
+  }
+
+  .action-card h3 {
+    font-size: 24px !important;
+    margin-top: 12px !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* Horizontal Scrollable Price Tabs */
+  .price-tabs {
+    display: flex !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 8px !important;
+    padding-bottom: 8px !important;
+    justify-content: flex-start !important;
+  }
+
+  .price-tab {
+    flex: 0 0 auto !important;
+    font-size: 13px !important;
+    padding: 8px 16px !important;
+  }
+
+  /* Responsive Price Rows */
+  .price-row {
+    grid-template-columns: 1fr auto !important;
+    gap: 12px !important;
+    padding: 16px 0 !important;
+  }
+
+  .price-row .name {
+    font-size: 16px !important;
+  }
+
+  .price-row .price {
+    font-size: 18px !important;
+  }
+
+  .price-row .cat {
+    display: none !important; /* Hide Category label inside rows on mobile since tabs already filter them */
+  }
+
+  /* Balanced Comparison Grid */
+  .compare-row {
+    grid-template-columns: 1.1fr 1fr 1.1fr !important;
+    font-size: 13px !important;
+    gap: 8px !important;
+    padding: 16px 0 !important;
+  }
+
+  .compare-row .col-evw {
+    gap: 6px !important;
+  }
+
+  .compare-row .col-evw .check {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  /* Tighten form padding & checklists */
+  form {
+    padding: 24px !important;
+  }
+
+  .chk-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .chk {
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+  }
+
+  /* Tighten Testimonial cards */
+  .testi-card {
+    padding: 24px !important;
+  }
+
+  .testi-card blockquote {
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* Stacked Responsive CTA Form */
+  .cta-form {
+    flex-direction: column !important;
+    background: transparent !important;
+    gap: 12px !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .cta-form input {
+    background: #fff !important;
+    border: 1px solid var(--hair) !important;
+    border-radius: 12px !important;
+    width: 100% !important;
+    height: 48px !important;
+    padding: 0 16px !important;
+  }
+
+  .cta-form button {
+    width: 100% !important;
+    height: 48px !important;
+    border-radius: 12px !important;
   }
 
   .section-head {
