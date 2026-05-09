@@ -28,11 +28,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  console.log('>>> [POST /api/contact] Called');
   try {
-    const body = await req.json()
-    console.log('>>> [POST /api/contact] Body:', body);
-    const { full_name, phone, email, reason, message } = body
+    const { full_name, phone, email, reason, message } = await req.json()
+    console.log(`📩 [Contact API] Message received from "${full_name}" (${phone}) | Reason: "${reason || 'General'}"`)
 
     if (!full_name || !phone || !message) {
       return NextResponse.json({ error: 'Name, phone and message are required.' }, { status: 400 })
