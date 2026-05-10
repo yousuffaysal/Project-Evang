@@ -4572,7 +4572,12 @@ form.contact-form {
   transform: translateY(-1px);
 }
 
-/* Responsive adjustment for Messages system */
+/* Hide mobile header on desktop */
+.admin-mobile-header {
+  display: none;
+}
+
+/* Responsive adjustment for admin dashboard and messaging system */
 @media (max-width: 991px) {
   .inbox-container {
     grid-template-columns: 1fr;
@@ -4580,5 +4585,151 @@ form.contact-form {
   }
   .inbox-reader-pane {
     min-height: 400px;
+  }
+
+  /* Admin Mobile Header & Responsive Overrides */
+  .admin-mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--ink);
+    padding: 14px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .mobile-hamburger {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 24px;
+    padding: 0;
+  }
+
+  .mobile-hamburger span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+
+  .admin-mobile-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 17, 36, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1001;
+    animation: fadeIn 0.2s ease;
+  }
+
+  /* Transform Sidebar to a sliding drawer */
+  .dash aside {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    z-index: 1002;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 10px 0 30px rgba(0,0,0,0.2);
+  }
+
+  .dash aside.open {
+    transform: translateX(0);
+  }
+
+  /* Padding adjustments for main layout on mobile */
+  .dash main {
+    padding: 20px 16px !important;
+  }
+
+  /* Make topbar adjust correctly */
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .topbar h1 {
+    font-size: clamp(24px, 6vw, 30px);
+  }
+
+  .topbar-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 12px;
+  }
+
+  .search {
+    width: 100% !important;
+    max-width: none;
+  }
+
+  .pill {
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Grid adjustments */
+  .kpis {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    margin-bottom: 24px;
+  }
+
+  .kpi {
+    padding: 16px !important;
+    border-radius: 12px;
+  }
+
+  .kpi .v {
+    font-size: 28px !important;
+    margin-top: 4px;
+  }
+
+  /* Table styling responsiveness: wrap all tables in scroll containers */
+  .panel {
+    padding: 16px !important;
+    border-radius: 14px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .admin-table {
+    min-width: 600px; /* Forces horizontal scrolling on narrow screens instead of breaking */
+  }
+
+  /* Modal split adjustment for Ticket details */
+  .modal-split {
+    flex-direction: column;
+  }
+
+  .split-col {
+    padding: 20px !important;
+  }
+
+  .split-col.alt {
+    border-left: none !important;
+    border-top: 1px dashed rgba(10, 17, 36, 0.1) !important;
+    border-bottom-right-radius: 24px;
+    border-bottom-left-radius: 24px;
+  }
+
+  .modal-hero {
+    padding: 32px 20px 24px !important;
+  }
+
+  .modal-hero .val {
+    font-size: 36px !important;
   }
 }

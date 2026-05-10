@@ -51,6 +51,7 @@ export default function AdminPage() {
   const [signUpSuccess, setSignUpSuccess] = useState(false)
   const [signUpForm, setSignUpForm] = useState({ name: '', email: '', password: '', phone: '' })
   const [signingUp, setSigningUp] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   // Data
   const [stats, setStats] = useState<Stats | null>(null)
@@ -389,7 +390,26 @@ export default function AdminPage() {
 
   return (
     <section className="dash">
-      <aside>
+      {/* Mobile Sticky Header */}
+      <div className="admin-mobile-header">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <img src="/logo.png" alt="E-Vangariwala Logo" style={{ height: '28px', width: 'auto', objectFit: 'contain' }} />
+          <span style={{ fontSize: '13px', fontWeight: 800, fontFamily: 'var(--font-unbounded), sans-serif', color: '#fff', letterSpacing: '-0.04em' }}>E-Vangariwala</span>
+        </div>
+        <button className="mobile-hamburger" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle Navigation Menu">
+          <span />
+          <span />
+          <span />
+        </button>
+      </div>
+
+      {/* Backdrop for closing slideout menu */}
+      {mobileMenuOpen && (
+        <div className="admin-mobile-backdrop" onClick={() => setMobileMenuOpen(false)} />
+      )}
+
+      {/* Slide-out Sidebar Drawer */}
+      <aside className={mobileMenuOpen ? 'open' : ''}>
         <div className="aside-brand" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '8px', paddingBottom: '16px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <img src="/logo.png" alt="E-Vangariwala Logo" style={{ height: '34px', width: 'auto', objectFit: 'contain' }} />
@@ -402,7 +422,7 @@ export default function AdminPage() {
           <ul>
             {navItems.filter(i => !['users','settings'].includes(i.view)).map(item => (
               <li key={item.view}>
-                <a className={currentView === item.view ? 'active' : ''} onClick={() => setCurrentView(item.view)}>
+                <a className={currentView === item.view ? 'active' : ''} onClick={() => { setCurrentView(item.view); setMobileMenuOpen(false); }}>
                   {item.icon}{item.label}
                 </a>
               </li>
@@ -414,7 +434,7 @@ export default function AdminPage() {
               <ul>
                 {navItems.filter(i => ['users','settings'].includes(i.view)).map(item => (
                   <li key={item.view}>
-                    <a className={currentView === item.view ? 'active' : ''} onClick={() => setCurrentView(item.view)}>
+                    <a className={currentView === item.view ? 'active' : ''} onClick={() => { setCurrentView(item.view); setMobileMenuOpen(false); }}>
                       {item.icon}{item.label}
                     </a>
                   </li>
@@ -425,7 +445,7 @@ export default function AdminPage() {
         </nav>
         <div className="aside-footer">
           <div>{user.name} · {user.role}</div>
-          <div className="logout" onClick={handleLogout}>Sign out</div>
+          <div className="logout" onClick={() => { handleLogout(); setMobileMenuOpen(false); }}>Sign out</div>
         </div>
       </aside>
 
