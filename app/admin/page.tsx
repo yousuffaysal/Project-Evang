@@ -65,6 +65,7 @@ export default function AdminPage() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([])
+  const [activeMsgId, setActiveMsgId] = useState<number | null>(null)
 
   // Check session on mount
   useEffect(() => {
@@ -100,6 +101,12 @@ export default function AdminPage() {
       fetch('/api/contact').then(r => r.json()).then(d => setContactMessages(d.messages || [])).catch(() => {})
     }
   }, [currentView, user])
+
+  useEffect(() => {
+    if (contactMessages.length > 0 && activeMsgId === null) {
+      setActiveMsgId(contactMessages[0].id)
+    }
+  }, [contactMessages, activeMsgId])
 
   const handleToggleRead = async (id: number, currentRead: boolean) => {
     try {
@@ -808,56 +815,124 @@ export default function AdminPage() {
                 </p>
               </div>
             ) : (
-              <div className="panel" style={{ padding: 0, overflow: 'hidden' }}>
-                <table className="dash-table">
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>Sender Name</th>
-                      <th>Phone</th>
-                      <th>Email</th>
-                      <th>Reason</th>
-                      <th>Message</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {contactMessages.map((msg) => (
-                      <tr key={msg.id} style={!msg.is_read ? { fontWeight: 600, background: 'rgba(209, 226, 49, 0.04)' } : {}}>
-                        <td style={{ fontSize: 13, color: 'var(--muted)', whiteSpace: 'nowrap' }}>
-                          {new Date(msg.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                        </td>
-                        <td style={{ whiteSpace: 'nowrap' }}>{msg.full_name}</td>
-                        <td style={{ whiteSpace: 'nowrap' }}>
-                          <a href={`tel:${msg.phone}`} style={{ color: 'var(--navy)', textDecoration: 'underline' }}>{msg.phone}</a>
-                        </td>
-                        <td>{msg.email || '—'}</td>
-                        <td style={{ whiteSpace: 'nowrap' }}>
-                          <span className="badge" style={{ background: 'rgba(1, 33, 82, 0.05)', color: 'var(--navy)' }}>{msg.reason || 'General'}</span>
-                        </td>
-                        <td style={{ maxWidth: '300px', whiteSpace: 'normal', wordBreak: 'break-word', fontSize: 13, lineHeight: 1.45, padding: '14px 12px' }}>
-                          {msg.message}
-                        </td>
-                        <td>
-                          <button 
-                            onClick={() => handleToggleRead(msg.id, msg.is_read)} 
-                            className="badge" 
-                            style={{ 
-                              cursor: 'pointer', 
-                              border: 'none',
-                              background: msg.is_read ? 'rgba(0,0,0,0.05)' : 'var(--lime)',
-                              color: msg.is_read ? 'var(--navy)' : 'var(--navy)',
-                              fontWeight: 600
+              (() => {
+                const activeMsg = contactMessages.find(m => m.id === activeMsgId) || contactMessages[0]
+                const activeInitials = activeMsg?.full_name.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2) || 'S'
+                return (
+                  <div className="inbox-container">
+                    {/* Left Pane: Message List */}
+                    <div className="inbox-list-pane">
+                      <div className="inbox-list-header">
+                        <h3>Inbox ({contactMessages.filter(m => !m.is_read).length} Unread)</h3>
+                      </div>
+                      <div className="inbox-list-items">
+                        {contactMessages.map((msg) => (
+                          <div
+                            key={msg.id}
+                            className={`inbox-card${msg.id === activeMsg?.id ? ' active' : ''}${!msg.is_read ? ' unread' : ''}`}
+                            onClick={() => {
+                              setActiveMsgId(msg.id)
+                              if (!msg.is_read) {
+                                handleToggleRead(msg.id, false) // Auto-mark read when clicked
+                              }
                             }}
                           >
-                            {msg.is_read ? 'Read' : 'Mark Read'}
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                            <div className="inbox-card-meta">
+                              <span className="inbox-card-name">{msg.full_name}</span>
+                              <span className="inbox-card-date">
+                                {new Date(msg.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}
+                              </span>
+                            </div>
+                            <span className="inbox-card-reason">{msg.reason || 'General'}</span>
+                            <div className="inbox-card-snippet">{msg.message}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Right Pane: Message Details Reader */}
+                    <div className="inbox-reader-pane">
+                      {activeMsg ? (
+                        <>
+                          <div className="inbox-reader-header">
+                            <div className="inbox-sender-info">
+                              <div className="inbox-avatar">{activeInitials}</div>
+                              <div className="inbox-sender-details">
+                                <h4>{activeMsg.full_name}</h4>
+                                <div className="inbox-msg-date">
+                                  Received {new Date(activeMsg.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="inbox-actions-top">
+                              <button
+                                onClick={() => handleToggleRead(activeMsg.id, activeMsg.is_read)}
+                                className={`inbox-action-button ${activeMsg.is_read ? 'secondary' : 'primary'}`}
+                              >
+                                {activeMsg.is_read ? '✉️ Mark Unread' : '✓ Mark Read'}
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="inbox-reader-body">
+                            <div className="inbox-meta-grid">
+                              <div className="inbox-meta-item">
+                                <span className="inbox-meta-label">Phone</span>
+                                <span className="inbox-meta-value">
+                                  <a href={`tel:${activeMsg.phone}`}>{activeMsg.phone}</a>
+                                </span>
+                              </div>
+                              <div className="inbox-meta-item">
+                                <span className="inbox-meta-label">Email</span>
+                                <span className="inbox-meta-value">
+                                  {activeMsg.email ? <a href={`mailto:${activeMsg.email}`}>{activeMsg.email}</a> : '—'}
+                                </span>
+                              </div>
+                              <div className="inbox-meta-item">
+                                <span className="inbox-meta-label">Reason for Contact</span>
+                                <span className="inbox-meta-value" style={{ textTransform: 'capitalize' }}>
+                                  {activeMsg.reason || 'General Enquiry'}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="inbox-message-content">
+                              {activeMsg.message}
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '12px', marginTop: 'auto' }}>
+                              <a
+                                href={`https://wa.me/${activeMsg.phone.replace(/[^0-9]/g, '')}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inbox-action-button primary"
+                              >
+                                💬 Reply on WhatsApp
+                              </a>
+                              <button
+                                onClick={() => {
+                                  navigator.clipboard.writeText(activeMsg.message)
+                                  alert('Message copied to clipboard!')
+                                }}
+                                className="inbox-action-button secondary"
+                              >
+                                📋 Copy Message
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="inbox-reader-placeholder">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: '48px', height: '48px' }}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                          </svg>
+                          <p>Select a message from the list to view</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )
+              })()
             )}
           </div>
         )}
