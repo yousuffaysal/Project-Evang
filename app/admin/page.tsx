@@ -37,8 +37,8 @@ const POST_BADGE: Record<string, string> = {
 export default function AdminPage() {
   const [user, setUser] = useState<User | null>(null)
   const [currentView, setCurrentView] = useState<View>('dashboard')
-  const [loginEmail, setLoginEmail] = useState('admin@evangariwala.com')
-  const [loginPass, setLoginPass] = useState('admin123')
+  const [loginEmail, setLoginEmail] = useState('')
+  const [loginPass, setLoginPass] = useState('')
   const [loginError, setLoginError] = useState('')
   const [loggingIn, setLoggingIn] = useState(false)
   const [selectedPickup, setSelectedPickup] = useState<Pickup | null>(null)
@@ -368,9 +368,6 @@ export default function AdminPage() {
                   <button type="submit" className="login-submit" disabled={loggingIn}>
                     {loggingIn ? 'Signing in…' : 'Sign in →'}
                   </button>
-                  <div className="demo-hint" style={{ marginTop: 24, fontSize: 12, opacity: 0.6 }}>
-                    <strong>Admin Demo Credentials:</strong> admin@evangariwala.com / admin123
-                  </div>
                 </form>
               </div>
             )}

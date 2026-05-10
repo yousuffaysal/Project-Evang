@@ -118,13 +118,13 @@ export async function GET() {
     // Seed admin users
     const existingAdmins = await sql`SELECT COUNT(*) as count FROM admin_users`
     if (Number(existingAdmins[0].count) === 0) {
-      const adminHash = await bcrypt.hash('admin123', 10)
+      const adminHash = await bcrypt.hash('CEOEvangariwala1019##', 10)
       const dispatcherHash = await bcrypt.hash('dispatch123', 10)
       const editorHash = await bcrypt.hash('editor123', 10)
 
       await sql`
         INSERT INTO admin_users (email, password_hash, full_name, role, title, avatar_initials) VALUES
-        ('admin@evangariwala.com', ${adminHash}, 'Yusuf Rahman', 'admin', 'Founder & CEO', 'YR'),
+        ('evangariwala@gmail.com', ${adminHash}, 'Yusuf Rahman', 'admin', 'Founder & CEO', 'YR'),
         ('dispatcher@evangariwala.com', ${dispatcherHash}, 'Karim Hossain', 'dispatcher', 'Operations Lead', 'KH'),
         ('editor@evangariwala.com', ${editorHash}, 'Fatema Begum', 'editor', 'Content Manager', 'FB')
       `
